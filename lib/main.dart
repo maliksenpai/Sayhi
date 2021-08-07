@@ -1,5 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:say_hi/Views/Authentication/LogIn.dart';
+import 'package:say_hi/Views/Authentication/login.dart';
+import 'package:say_hi/getx_bindings.dart';
+import 'package:say_hi/views/authentication/login.dart' as loginScreen;
+import 'package:say_hi/views/authentication/register.dart';
+import 'package:say_hi/views/main/main_screen.dart';
+import 'package:say_hi/views/profile/profile_screen.dart';
 
 void main() {
   runApp(MyApp());
@@ -9,8 +16,17 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
       title: 'Flutter Demo',
+      initialBinding: InitialBindings(),
+      getPages: [
+        ///flutter bugundan dolayı LogIn screeni böyle yazdım sebebi-
+        ///CapWord'den snake case'ye geçtiğimiz için olabilir
+        GetPage(name: "/login", page: () => loginScreen.LogIn()),
+        GetPage(name: "/register", page: () => Register()),
+        GetPage(name: "/main", page: () => MainScreen()),
+        GetPage(name: "/profile", page: () => ProfileScreen())
+      ],
       theme: ThemeData(
         // This is the theme of your application.
         //
@@ -23,7 +39,8 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: LogIn(),
+      // Todo: We must check if user is entered he/she pass the login screen
+      home: loginScreen.LogIn(),
     );
   }
 }
