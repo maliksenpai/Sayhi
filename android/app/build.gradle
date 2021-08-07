@@ -40,6 +40,7 @@ android {
         targetSdkVersion 30
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
+        multiDexEnabled true
     }
 
     buildTypes {
@@ -56,10 +57,10 @@ flutter {
 }
 
 dependencies {
+    implementation 'com.android.support:multidex:1.0.3'
     implementation platform('com.google.firebase:firebase-bom:28.3.0')
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'com.google.firebase:firebase-analytics-ktx'
-    classpath 'com.google.gms:google-services:4.3.8'
     implementation 'com.google.firebase:firebase-auth-ktx'
     implementation 'com.google.firebase:firebase-firestore-ktx'
     //SHA256:24:4C:65:06:5F:B7:55:D0:AE:72:27:E7:47:80:20:FB:DB:09:92:0D:E5:A6:22:49:27:F7:24:32:97:F0:09:87
