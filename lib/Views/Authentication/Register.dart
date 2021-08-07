@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 
-import 'Register.dart';
+class Register extends StatefulWidget {
+  const Register({Key? key}) : super(key: key);
 
-class LogIn extends StatefulWidget {
   @override
-  _LogInState createState() => _LogInState();
+  _RegisterState createState() => _RegisterState();
 }
 
-class _LogInState extends State<LogIn> {
+class _RegisterState extends State<Register> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: Text("Login Page"),
+        title: Text("Register Page"),
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -24,10 +24,10 @@ class _LogInState extends State<LogIn> {
                 child: Container(
                     width: 200,
                     height: 150
-                    /*decoration: BoxDecoration(
+                  /*decoration: BoxDecoration(
                         color: Colors.red,
                         borderRadius: BorderRadius.circular(50.0)),*/
-                   ),
+                ),
               ),
             ),
             Padding(
@@ -35,9 +35,9 @@ class _LogInState extends State<LogIn> {
               padding: EdgeInsets.symmetric(horizontal: 15),
               child: TextField(
                 decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'Email',
-                   ),
+                  border: OutlineInputBorder(),
+                  labelText: 'Email',
+                ),
               ),
             ),
             Padding(
@@ -48,18 +48,22 @@ class _LogInState extends State<LogIn> {
 
                 obscureText: true,
                 decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'Password',
-                    ),
+                  border: OutlineInputBorder(),
+                  labelText: 'Password',
+                ),
               ),
             ),
-            TextButton(
-              onPressed: (){
-                //TODO FORGOT PASSWORD SCREEN
-              },
-              child: Text(
-                'Forgot Password',
-                style: TextStyle(color: Colors.blue, fontSize: 15),
+            Padding(
+              padding: const EdgeInsets.only(
+                  left: 15.0, right: 15.0, top: 15, bottom: 0),
+              //padding: EdgeInsets.symmetric(horizontal: 15),
+              child: TextField(
+
+                obscureText: true,
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                  labelText: 'Confirm Password',
+                ),
               ),
             ),
             ElevatedButton(
@@ -67,9 +71,12 @@ class _LogInState extends State<LogIn> {
 
               ),
               onPressed: () {
-
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => Register()),
+                );
               },
-              child: Text('Log In'),
+              child: Text('Sign me up'),
             ),
 
             SizedBox(
@@ -77,13 +84,11 @@ class _LogInState extends State<LogIn> {
             ),
             TextButton(
               onPressed: (){
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => Register()),
-                );
+                //TODO RETURN LOG-IN SCREEN
+                //bURADA Navigator.Push mantıklı mı?
               },
               child: Text(
-                'New User? Create account in 1 min',
+                'Old User? Return Log-in screen  in 1 sec',
                 style: TextStyle(color: Colors.blue, fontSize: 15),
               ),
             ),
@@ -91,5 +96,6 @@ class _LogInState extends State<LogIn> {
         ),
       ),
     );
+
   }
 }
