@@ -1,13 +1,25 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-
+enum MobileVerificationState{
+  SHOW_MOBILE_FORM_STATE,
+  SHOW_VERIFICATION_FORM_STATE
+}
 class Register extends StatefulWidget {
   const Register({Key? key}) : super(key: key);
 
   @override
   _RegisterState createState() => _RegisterState();
 }
-
 class _RegisterState extends State<Register> {
+  MobileVerificationState currentState = MobileVerificationState.SHOW_MOBILE_FORM_STATE;
+
+  final phoneController = TextEditingController();
+  final OTPCodeController = TextEditingController();
+
+  FirebaseAuth _auth = FirebaseAuth.instance;
+
+  String verificationId="";
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,51 +48,39 @@ class _RegisterState extends State<Register> {
               child: TextField(
                 decoration: InputDecoration(
                   border: OutlineInputBorder(),
-                  labelText: 'Email',
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(
-                  left: 15.0, right: 15.0, top: 15, bottom: 0),
-              //padding: EdgeInsets.symmetric(horizontal: 15),
-              child: TextField(
+                  labelText: 'Phone Number',
 
-                obscureText: true,
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: 'Password',
                 ),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.only(
-                  left: 15.0, right: 15.0, top: 15, bottom: 0),
-              //padding: EdgeInsets.symmetric(horizontal: 15),
-              child: TextField(
 
-                obscureText: true,
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: 'Confirm Password',
-                ),
-              ),
-            ),
             ElevatedButton(
               style: ButtonStyle(
 
               ),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => Register()),
+              onPressed: () async {
+                await _auth.verifyPhoneNumber(
+                    phoneNumber: "+905535977731",
+                    verificationCompleted: (phoneAuthCredential) async{
+
+                    },
+                    verificationFailed: (verificationFailed) async{
+
+                    },
+                    codeSent: (verificationId, resendingToken) async{
+                        setState(() {
+                          currentState = MobileVerificationState.SHOW_VERIFICATION_FORM_STATE;
+                          this.verificationId = verificationId;
+                        });
+                    },
+                    codeAutoRetrievalTimeout: (verificationId) async{
+                    },
                 );
               },
-              child: Text('Sign me up'),
+              child: Text('Send me a code'),
             ),
-
             SizedBox(
-              height: 130,
+              height: 50,
             ),
             TextButton(
               onPressed: (){

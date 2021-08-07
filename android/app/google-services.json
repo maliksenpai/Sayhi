@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "908214073562",
+    "firebase_url": "https://database-caddf.firebaseio.com",
+    "project_id": "database-caddf",
+    "storage_bucket": "database-caddf.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:908214073562:android:b6345624f68558b8cdcde3",
+        "android_client_info": {
+          "package_name": "com.sayhi.say_hi"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "908214073562-27f2houttu8bhlp6iraeg7qn9daejs2l.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDHiC0mdwxg08ZfU2rfoI9S1aVNy61VGgQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "908214073562-27f2houttu8bhlp6iraeg7qn9daejs2l.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
