@@ -1,6 +1,10 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:say_hi/services/AuthenticationServices.dart';
 import 'package:say_hi/views/authentication/login.dart';
+import 'package:say_hi/views/authentication/phone_verification/otp.dart';
+import 'package:say_hi/views/authentication/phone_verification/phone_verification.dart';
 import 'package:say_hi/views/main/main_screen.dart';
 
 class RegistrationScreen extends StatefulWidget {
@@ -11,7 +15,6 @@ class RegistrationScreen extends StatefulWidget {
 class _RegistrationScreenState extends State<RegistrationScreen> {
   final _key = GlobalKey<FormState>();
 
-  final AuthenticationService _auth = AuthenticationService();
 
   TextEditingController _nameController = TextEditingController();
   TextEditingController _emailContoller = TextEditingController();
@@ -21,6 +24,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   // TextFormField validation fail olduğu zaman style'ları gidiyor. Onu nasıl çözebiliriz?
   @override
   Widget build(BuildContext context) {
+    final _authService = Provider.of<AuthenticationService>(context);
+
     return Scaffold(
       body: Container(
         color: Colors.black26,
@@ -99,6 +104,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                           } else
                             return null;
                         },
+
                         decoration: InputDecoration(
                           focusedBorder: OutlineInputBorder(
                               borderSide:
@@ -115,6 +121,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                         style: TextStyle(
                           color: Colors.white,
                         ),
+
                       ),
                       SizedBox(height: 30),
                       Row(
@@ -122,9 +129,16 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                         children: [
                           MaterialButton(
                             child: Text('Sign Up'),
-                            onPressed: () {
+                            onPressed: () async{
                               if (_key.currentState!.validate()) {
-                                createUser();
+                                await _authService.createUserWithEmailAndPassword(_emailContoller.text, _passwordController.text);
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        PhoneVerification(),
+                                  ),
+                                );
                               }
                             },
                             color: Colors.white,
@@ -161,22 +175,5 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         ),
       ),
     );
-  }
-
-  void createUser() async {
-    dynamic result = await _auth.createNewUser(
-        _nameController.text, _emailContoller.text, _passwordController.text);
-    if (result == null) {
-      print('Email is not valid');
-    } else {
-      print(result.toString());
-      _nameController.clear();
-      _passwordController.clear();
-      _emailContoller.clear();
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => LogIn()),
-      );
-    }
   }
 }

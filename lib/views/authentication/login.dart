@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:say_hi/services/AuthenticationServices.dart';
 import 'package:say_hi/views/authentication/register.dart';
 import 'package:say_hi/views/main/main_screen.dart';
@@ -13,14 +14,17 @@ class LogIn extends StatefulWidget {
 class _LogInState extends State<LogIn> {
   final _key = GlobalKey<FormState>();
 
-  final AuthenticationService _auth = AuthenticationService();
 
   TextEditingController _nameController = TextEditingController();
-  TextEditingController _emailContoller = TextEditingController();
-  TextEditingController _passwordController = TextEditingController();
+
 
   @override
   Widget build(BuildContext context) {
+    final _authService = Provider.of<AuthenticationService>(context);
+
+    TextEditingController _emailContoller = TextEditingController();
+    TextEditingController _passwordController = TextEditingController();
+
     return Scaffold(
       body: Container(
         color: Colors.black26,
@@ -100,7 +104,7 @@ class _LogInState extends State<LogIn> {
                             child: Text('Sign In'),
                             onPressed: () {
                               if (_key.currentState!.validate()) {
-                                loginUser();
+                                _authService.signInWithEmailAndPassword(_emailContoller.text, _passwordController.text);
                               }
                             },
                             color: Colors.white,
@@ -132,20 +136,5 @@ class _LogInState extends State<LogIn> {
         ),
       ),
     );
-  }
-
-  void loginUser() async {
-    dynamic authResult =
-        await _auth.loginUser(_emailContoller.text, _passwordController.text);
-    if (authResult == null) {
-      print('Sign in error. could not be able to login');
-    } else {
-      _emailContoller.clear();
-      _passwordController.clear();
-
-      Navigator.of(context).pushAndRemoveUntil(
-          MaterialPageRoute(builder: (context) => MainScreen()),
-              (route) => false);
-    }
   }
 }
