@@ -44,3 +44,5 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+.idea/libraries/Flutter_Plugins.xml
+.idea/libraries/Flutter_Plugins.xml
