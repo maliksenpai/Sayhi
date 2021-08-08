@@ -1,101 +1,182 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-enum MobileVerificationState{
-  SHOW_MOBILE_FORM_STATE,
-  SHOW_VERIFICATION_FORM_STATE
-}
-class Register extends StatefulWidget {
-  const Register({Key? key}) : super(key: key);
+import 'package:say_hi/services/AuthenticationServices.dart';
+import 'package:say_hi/views/authentication/login.dart';
+import 'package:say_hi/views/main/main_screen.dart';
 
+class RegistrationScreen extends StatefulWidget {
   @override
-  _RegisterState createState() => _RegisterState();
+  _RegistrationScreenState createState() => _RegistrationScreenState();
 }
-class _RegisterState extends State<Register> {
-  MobileVerificationState currentState = MobileVerificationState.SHOW_MOBILE_FORM_STATE;
 
-  final phoneController = TextEditingController();
-  final OTPCodeController = TextEditingController();
+class _RegistrationScreenState extends State<RegistrationScreen> {
+  final _key = GlobalKey<FormState>();
 
-  FirebaseAuth _auth = FirebaseAuth.instance;
+  final AuthenticationService _auth = AuthenticationService();
 
-  String verificationId="";
+  TextEditingController _nameController = TextEditingController();
+  TextEditingController _emailContoller = TextEditingController();
+  TextEditingController _passwordController = TextEditingController();
 
+  //TextFormField'ların style'ini tek bir yerde nasıl tutarız?
+  // TextFormField validation fail olduğu zaman style'ları gidiyor. Onu nasıl çözebiliriz?
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        title: Text("Register Page"),
-      ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.only(top: 60.0),
-              child: Center(
-                child: Container(
-                    width: 200,
-                    height: 150
-                  /*decoration: BoxDecoration(
-                        color: Colors.red,
-                        borderRadius: BorderRadius.circular(50.0)),*/
+      body: Container(
+        color: Colors.black26,
+        child: Center(
+          child: Form(
+            key: _key,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  'Register',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 30,
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
-              ),
-            ),
-            Padding(
-              //padding: const EdgeInsets.only(left:15.0,right: 15.0,top:0,bottom: 0),
-              padding: EdgeInsets.symmetric(horizontal: 15),
-              child: TextField(
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: 'Phone Number',
-
+                Padding(
+                  padding: const EdgeInsets.all(32.0),
+                  child: Column(
+                    children: [
+                      TextFormField(
+                        controller: _nameController,
+                        decoration: InputDecoration(
+                          focusedBorder: OutlineInputBorder(
+                              borderSide:
+                                  BorderSide(color: Colors.black87, width: 5.0),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(10))),
+                          hintText: 'Name and Surname',
+                          enabledBorder: OutlineInputBorder(
+                              borderSide:
+                                  BorderSide(color: Colors.red, width: 5.0),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(10))),
+                        ),
+                        style: TextStyle(color: Colors.white),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Name cannot be empty';
+                          } else
+                            return null;
+                        },
+                      ),
+                      SizedBox(height: 30),
+                      TextFormField(
+                        controller: _emailContoller,
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'Email cannot be empty';
+                          } else
+                            return null;
+                        },
+                        decoration: InputDecoration(
+                          focusedBorder: OutlineInputBorder(
+                              borderSide:
+                                  BorderSide(color: Colors.black87, width: 5.0),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(10))),
+                          hintText: 'Email',
+                          enabledBorder: OutlineInputBorder(
+                              borderSide:
+                                  BorderSide(color: Colors.red, width: 5.0),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(10))),
+                        ),
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      SizedBox(height: 30),
+                      TextFormField(
+                        controller: _passwordController,
+                        obscureText: true,
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'Password cannot be empty';
+                          } else
+                            return null;
+                        },
+                        decoration: InputDecoration(
+                          focusedBorder: OutlineInputBorder(
+                              borderSide:
+                                  BorderSide(color: Colors.black87, width: 5.0),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(10))),
+                          hintText: 'Password',
+                          enabledBorder: OutlineInputBorder(
+                              borderSide:
+                                  BorderSide(color: Colors.red, width: 5.0),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(10))),
+                        ),
+                        style: TextStyle(
+                          color: Colors.white,
+                        ),
+                      ),
+                      SizedBox(height: 30),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          MaterialButton(
+                            child: Text('Sign Up'),
+                            onPressed: () {
+                              if (_key.currentState!.validate()) {
+                                createUser();
+                              }
+                            },
+                            color: Colors.white,
+                          ),
+                          MaterialButton(
+                            child: Text('Cancel'),
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            color: Colors.white,
+                          )
+                        ],
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          TextButton(
+                              onPressed: () => {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => LogIn()),
+                                    )
+                                  },
+                              child: Text('Already have? Return LogIn Screen'))
+                        ],
+                      )
+                    ],
+                  ),
                 ),
-              ),
+              ],
             ),
-
-            ElevatedButton(
-              style: ButtonStyle(
-
-              ),
-              onPressed: () async {
-                await _auth.verifyPhoneNumber(
-                    phoneNumber: "+905535977731",
-                    verificationCompleted: (phoneAuthCredential) async{
-
-                    },
-                    verificationFailed: (verificationFailed) async{
-
-                    },
-                    codeSent: (verificationId, resendingToken) async{
-                        setState(() {
-                          currentState = MobileVerificationState.SHOW_VERIFICATION_FORM_STATE;
-                          this.verificationId = verificationId;
-                        });
-                    },
-                    codeAutoRetrievalTimeout: (verificationId) async{
-                    },
-                );
-              },
-              child: Text('Send me a code'),
-            ),
-            SizedBox(
-              height: 50,
-            ),
-            TextButton(
-              onPressed: (){
-                //TODO RETURN LOG-IN SCREEN
-                //bURADA Navigator.Push mantıklı mı?
-              },
-              child: Text(
-                'Old User? Return Log-in screen  in 1 sec',
-                style: TextStyle(color: Colors.blue, fontSize: 15),
-              ),
-            ),
-          ],
+          ),
         ),
       ),
     );
+  }
 
+  void createUser() async {
+    dynamic result = await _auth.createNewUser(
+        _nameController.text, _emailContoller.text, _passwordController.text);
+    if (result == null) {
+      print('Email is not valid');
+    } else {
+      print(result.toString());
+      _nameController.clear();
+      _passwordController.clear();
+      _emailContoller.clear();
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => LogIn()),
+      );
+    }
   }
 }
