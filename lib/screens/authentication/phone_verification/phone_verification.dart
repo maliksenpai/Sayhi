@@ -1,9 +1,10 @@
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:say_hi/services/AuthenticationServices.dart';
-import 'package:say_hi/views/main/main_screen.dart';
+import 'package:get/get.dart';
+import 'package:say_hi/data/services/authentication_services.dart';
+import 'package:say_hi/screens/main/main_screen.dart';
+
 enum LoginScreen{
   SHOW_MOBILE_ENTER_WIDGET,
   SHOW_OTP_FORM_WIDGET
@@ -26,7 +27,7 @@ class _PhoneVerificationState extends State<PhoneVerification> {
 
   @override
   Widget build(BuildContext context) {
-    final _authService = Provider.of<AuthenticationService>(context);
+    final _authService = Get.put(AuthenticationService());
     showMobilePhoneWidget(context){
       return Column(
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -36,8 +37,7 @@ class _PhoneVerificationState extends State<PhoneVerification> {
           SizedBox(height: 7,),
           SizedBox(height: 20,),
           Center(
-            child:       TextField(
-
+            child:TextField(
               controller: phoneController,
               keyboardType: TextInputType.number,
               decoration: InputDecoration(

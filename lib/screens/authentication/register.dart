@@ -1,12 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:say_hi/services/AuthenticationServices.dart';
-import 'package:say_hi/views/authentication/login.dart';
-import 'package:say_hi/views/authentication/phone_verification/otp.dart';
-import 'package:say_hi/views/authentication/phone_verification/phone_verification.dart';
-import 'package:say_hi/views/main/main_screen.dart';
+import 'package:get/get.dart';
+import 'package:say_hi/data/services/authentication_services.dart';
+import 'package:say_hi/screens/authentication/phone_verification/phone_verification.dart';
 
+import 'login.dart';
 class RegistrationScreen extends StatefulWidget {
   @override
   _RegistrationScreenState createState() => _RegistrationScreenState();
@@ -24,7 +22,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   // TextFormField validation fail olduğu zaman style'ları gidiyor. Onu nasıl çözebiliriz?
   @override
   Widget build(BuildContext context) {
-    final _authService = Provider.of<AuthenticationService>(context);
+    final _authService = Get.put(AuthenticationService());
 
     return Scaffold(
       body: Container(

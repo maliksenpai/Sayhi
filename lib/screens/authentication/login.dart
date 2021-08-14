@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:say_hi/services/AuthenticationServices.dart';
-import 'package:say_hi/views/authentication/register.dart';
-import 'package:say_hi/views/main/main_screen.dart';
+import 'package:get/get.dart';
+import 'package:say_hi/data/services/authentication_services.dart';
+import 'package:say_hi/screens/authentication/register.dart';
 
 class LogIn extends StatefulWidget {
   const LogIn({Key? key}) : super(key: key);
@@ -20,7 +19,7 @@ class _LogInState extends State<LogIn> {
 
   @override
   Widget build(BuildContext context) {
-    final _authService = Provider.of<AuthenticationService>(context);
+    final _authService = Get.put(AuthenticationService());
 
     TextEditingController _emailContoller = TextEditingController();
     TextEditingController _passwordController = TextEditingController();

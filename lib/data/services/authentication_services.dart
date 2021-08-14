@@ -1,25 +1,32 @@
 import 'package:firebase_auth/firebase_auth.dart' as auth;
-import 'package:say_hi/DatabaseManager/DatabaseManager.dart';
+import 'package:get/get.dart';
 import 'package:say_hi/model/user.dart';
 
-class AuthenticationService {
-  final auth.FirebaseAuth _firebaseAuth = auth.FirebaseAuth.instance;
+class AuthenticationService extends GetxController {
+
+  var _firebaseAuth = auth.FirebaseAuth.instance.obs;
+  Rx<User?> user = null.obs;
+
+  @override
+  void onInit(){
+    // Todo: if you need init code you can write here
+
+    _firebaseAuth.value.authStateChanges().map(_userFromFirebase).listen((event) {
+      user.value = event!;
+    });
+    super.onInit();
+  }
 
   User? _userFromFirebase(auth.User? user) {
     if (user == null) {
       return null;
     }
-    return User(user.uid, user.email, user.phoneNumber);
-  }
-
-// registration with email and password
-  Stream<User?>? get user {
-    return _firebaseAuth.authStateChanges().map(_userFromFirebase);
+    return User(uid:user.uid, email:user.email, phoneNumber:user.phoneNumber);
   }
 
   Future<User?>? signInWithEmailAndPassword(
       String eMail, String Password) async {
-    final credential = await _firebaseAuth.signInWithEmailAndPassword(
+    final credential = await _firebaseAuth.value.signInWithEmailAndPassword(
         email: eMail, password: Password);
     return _userFromFirebase(credential.user);
   }
@@ -27,14 +34,14 @@ class AuthenticationService {
   Future<User?>? signInWithCredential(
       auth.AuthCredential phoneAuthCredential) async {
     final credential =
-        await _firebaseAuth.signInWithCredential(phoneAuthCredential);
+        await _firebaseAuth.value.signInWithCredential(phoneAuthCredential);
     if (credential.user != null) {
       return _userFromFirebase(credential.user);
     }
   }
 
   Future<void> verifyPhoneNumber() async {
-    await _firebaseAuth.verifyPhoneNumber(
+    await _firebaseAuth.value.verifyPhoneNumber(
         phoneNumber: "+905535977731",
         verificationCompleted: (phoneAuthCredential) async {},
         verificationFailed: (verificationFailed) {
@@ -48,14 +55,14 @@ class AuthenticationService {
 
   Future<User?>? createUserWithEmailAndPassword(
       String eMail, String Password) async {
-    final credential = await _firebaseAuth.createUserWithEmailAndPassword(
+    final credential = await _firebaseAuth.value.createUserWithEmailAndPassword(
         email: eMail, password: Password);
 
     return _userFromFirebase(credential.user);
   }
 
   bool phoneVerified() {
-    String? PhoneNumber = _firebaseAuth.currentUser!.phoneNumber;
+    String? PhoneNumber = _firebaseAuth.value.currentUser!.phoneNumber;
     if (PhoneNumber != "") {
       return true;
     } else {
@@ -64,7 +71,7 @@ class AuthenticationService {
   }
 
   Future<void> signOut() async {
-    return await _firebaseAuth.signOut();
+    return await _firebaseAuth.value.signOut();
   }
 
 /*
