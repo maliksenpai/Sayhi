@@ -58,7 +58,6 @@ class _MainWelcomeWidgetState extends State<MainWelcomeWidget> {
                           value: 0.2,
                           minHeight: 8,
                           backgroundColor: Colors.grey,
-                          color: Colors.blue,
                         )
                       ],
                     ),
