@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:say_hi/controllers/main_controller.dart';
-import 'package:say_hi/views/main_daily_question_widget.dart';
-import 'package:say_hi/views/main_reading_widget.dart';
-import 'package:say_hi/views/main_welcome_widget.dart';
+import 'package:say_hi/widgets/main_daily_question_widget.dart';
+import 'package:say_hi/widgets/main_reading_widget.dart';
+import 'package:say_hi/widgets/main_welcome_widget.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({Key? key}) : super(key: key);
