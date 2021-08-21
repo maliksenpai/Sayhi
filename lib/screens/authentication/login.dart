@@ -1,35 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:say_hi/data/services/authentication_services.dart';
+import 'package:say_hi/controllers/authentication_controller.dart';
 import 'package:say_hi/screens/authentication/register.dart';
 
-class LogIn extends StatefulWidget {
-  const LogIn({Key? key}) : super(key: key);
-
-  @override
-  _LogInState createState() => _LogInState();
-}
-
-class _LogInState extends State<LogIn> {
-  final _key = GlobalKey<FormState>();
-
-
-  TextEditingController _nameController = TextEditingController();
-
+class LogIn extends GetWidget<AuthController> {
 
   @override
   Widget build(BuildContext context) {
-    final _authService = Get.put(AuthenticationService());
 
     TextEditingController _emailContoller = TextEditingController();
     TextEditingController _passwordController = TextEditingController();
 
     return Scaffold(
       body: Container(
-        color: Colors.black26,
+        color: Colors.blue,
         child: Center(
           child: Form(
-            key: _key,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -54,15 +40,10 @@ class _LogInState extends State<LogIn> {
                             return null;
                         },
                         decoration: InputDecoration(
-                          focusedBorder: OutlineInputBorder(
-                              borderSide:
-                                  BorderSide(color: Colors.black87, width: 5.0),
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(10))),
                           hintText: 'Email',
                           enabledBorder: OutlineInputBorder(
                               borderSide:
-                                  BorderSide(color: Colors.red, width: 5.0),
+                                  BorderSide(color: Colors.white, width: 2.0),
                               borderRadius:
                                   BorderRadius.all(Radius.circular(10))),
                         ),
@@ -79,21 +60,14 @@ class _LogInState extends State<LogIn> {
                             return null;
                         },
                         decoration: InputDecoration(
-                          focusedBorder: OutlineInputBorder(
-                              borderSide:
-                                  BorderSide(color: Colors.black87, width: 5.0),
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(10))),
                           hintText: 'Password',
                           enabledBorder: OutlineInputBorder(
                               borderSide:
-                                  BorderSide(color: Colors.red, width: 5.0),
+                                  BorderSide(color: Colors.white, width: 2.0),
                               borderRadius:
                                   BorderRadius.all(Radius.circular(10))),
                         ),
-                        style: TextStyle(
-                          color: Colors.white,
-                        ),
+                        style: TextStyle(color: Colors.white),
                       ),
                       SizedBox(height: 30),
                       Row(
@@ -102,9 +76,7 @@ class _LogInState extends State<LogIn> {
                           MaterialButton(
                             child: Text('Sign In'),
                             onPressed: () {
-                              if (_key.currentState!.validate()) {
-                                _authService.signInWithEmailAndPassword(_emailContoller.text, _passwordController.text);
-                              }
+                              controller.login(_emailContoller.text, _passwordController.text);
                             },
                             color: Colors.white,
                           ),
@@ -114,16 +86,11 @@ class _LogInState extends State<LogIn> {
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           TextButton(
-                              onPressed: () => {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) =>
-                                            RegistrationScreen(),
-                                      ),
-                                    ),
-                                  },
-                              child: Text('New User? Create Account'))
+                              onPressed: () => {Get.to(RegistrationScreen())},
+                              child: Text(
+                                'New User? Create Account',
+                                style: TextStyle(color: Colors.white),
+                              ))
                         ],
                       ),
                     ],

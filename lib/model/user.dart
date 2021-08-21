@@ -1,22 +1,15 @@
-import 'package:hive/hive.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
-@HiveType(typeId: 0,adapterName: "User")
-class User{
+class UserModel {
+  late   String? id;
+  late   String? name;
+  late   String? email;
 
-  late String? nickname;
-  late int? experiencePoint;
-  late int? level;
-  final String uid;
-  final String? email;
-  final String? phoneNumber;
+  UserModel({this.id, this.name, this.email});
 
-  User({
-    required this.uid,
-    this.nickname,
-    this.experiencePoint,
-    this.level,
-    this.email,
-    this.phoneNumber
-  });
-
+  UserModel.fromDocumentSnapshot({required DocumentSnapshot documentSnapshot}) {
+    id = documentSnapshot.id;
+    name = documentSnapshot["name"];
+    email = documentSnapshot["email"];
+  }
 }

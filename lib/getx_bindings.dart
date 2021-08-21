@@ -1,13 +1,16 @@
 import 'package:get/get.dart';
+import 'package:say_hi/controllers/bindings/authBinding.dart';
 import 'package:say_hi/controllers/daily_examples_controller.dart';
-import 'package:say_hi/data/services/authentication_services.dart';
+
+import 'controllers/authentication_controller.dart';
 
 class InitialBindings extends Bindings{
 
   @override
   void dependencies() {
-    Get.lazyPut(() => AuthenticationService());
+    Get.lazyPut(() => AuthController());
     Get.lazyPut(() => DailyExamplesController());
+
   }
 
 

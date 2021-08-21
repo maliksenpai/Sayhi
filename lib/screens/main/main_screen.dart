@@ -50,7 +50,7 @@ class _MainScreenState extends State<MainScreen> {
                     });
                   },
                   background: Container(),
-                  //Todo add illustration here
+                  //TODO add illustration here
                   secondaryBackground: Container(color: Colors.blue,),
                 ),
               ),

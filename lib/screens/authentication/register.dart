@@ -1,16 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:say_hi/data/services/authentication_services.dart';
-import 'package:say_hi/screens/authentication/phone_verification/phone_verification.dart';
+import 'package:say_hi/controllers/authentication_controller.dart';
 
 import 'login.dart';
-class RegistrationScreen extends StatefulWidget {
-  @override
-  _RegistrationScreenState createState() => _RegistrationScreenState();
-}
+class RegistrationScreen extends GetWidget<AuthController>  {
 
-class _RegistrationScreenState extends State<RegistrationScreen> {
+
   final _key = GlobalKey<FormState>();
 
 
@@ -22,7 +18,6 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   // TextFormField validation fail olduğu zaman style'ları gidiyor. Onu nasıl çözebiliriz?
   @override
   Widget build(BuildContext context) {
-    final _authService = Get.put(AuthenticationService());
 
     return Scaffold(
       body: Container(
@@ -129,14 +124,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                             child: Text('Sign Up'),
                             onPressed: () async{
                               if (_key.currentState!.validate()) {
-                                await _authService.createUserWithEmailAndPassword(_emailContoller.text, _passwordController.text);
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) =>
-                                        PhoneVerification(),
-                                  ),
-                                );
+                                    controller.createUser(_nameController.text, _emailContoller.text, _passwordController.text);
                               }
                             },
                             color: Colors.white,
