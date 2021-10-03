@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
 import 'package:say_hi/controllers/main_controller.dart';
-import 'package:say_hi/widgets/main_daily_question_widget.dart';
-import 'package:say_hi/widgets/main_reading_widget.dart';
-import 'package:say_hi/widgets/main_welcome_widget.dart';
+import 'package:say_hi/screens/main/main_daily_question_widget.dart';
+import 'package:say_hi/screens/main/main_reading_widget.dart';
+import 'package:say_hi/screens/main/main_welcome_widget.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({Key? key}) : super(key: key);
@@ -16,6 +17,8 @@ class _MainScreenState extends State<MainScreen> {
 
   late MainController mainController;
   int stackIndex = 0;
+  Widget selectedWidget = Container();
+  PageController pageController = PageController();
 
   @override
   void initState() {
@@ -32,38 +35,21 @@ class _MainScreenState extends State<MainScreen> {
         ),
       ),
       body: SafeArea(
-        child: Obx(
-          () => IndexedStack(
-            index: stackIndex,
-            children: [
-              Container(
-                color: Colors.white,
-                height: Get.height,
-                width: Get.width,
-                child: Dismissible(
-                  key: UniqueKey(),
-                  child: MainWelcomeWidget(),
-                  direction: mainController.buttonIndex.value==0 ? DismissDirection.none : DismissDirection.up,
-                  onDismissed: (direction){
-                    setState(() {
-                      stackIndex=1;
-                    });
-                  },
-                  background: Container(),
-                  //TODO add illustration here
-                  secondaryBackground: Container(color: Colors.blue,),
-                ),
-              ),
-              SingleChildScrollView(
-                child: mainController.buttonIndex.value==1 ?
-                       MainDailyQuestionWidget():
-                       mainController.buttonIndex.value==2 ?
-                       MainReadingWidget():
-                       Container()
+        child: Obx( ()=>
+            Container(
+              color: Colors.white,
+              height: Get.height,
+              width: Get.width,
+              child: PageView(
+                controller: pageController,
+                scrollDirection: Axis.vertical,
+                children: [
+                  MainWelcomeWidget(),
+                  mainController.selectedWidget.value==null ? Container() : mainController.selectedWidget.value!
+                ],
               )
-            ],
-          ),
-        ),
+            ),
+        )
       ),
     );
   }

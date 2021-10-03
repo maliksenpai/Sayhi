@@ -1,10 +1,8 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class MainController extends GetxController{
 
-  var buttonIndex = 0.obs;
+  Rx<Widget?> selectedWidget = Rx<Widget?>(null);
 
-  void changeIndex(int index){
-    buttonIndex.value = index;
-  }
 }

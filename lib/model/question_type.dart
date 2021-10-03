@@ -1,0 +1,6 @@
+enum QuestionType{
+
+  FillBlank,
+  MultipleChoice,
+
+}

@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:say_hi/model/multiple_choice_question.dart';
 import 'package:say_hi/model/user.dart';
 
 class Database {
@@ -30,7 +33,19 @@ class Database {
   }
 
 
+  Future<List<MultipleChoiceQuestion>?> getQuestions() async{
+    try{
+      CollectionReference<Object>? doc = await _firestore
+          .collection("questions")
+          .withConverter<Map<String,dynamic>>(
+            fromFirestore: (snapshot,_)=> snapshot.data()!,
+            toFirestore: (list,_)=> list);
 
+      return null;
+    }catch(e){
+      rethrow;
+    }
+  }
 
 
 }

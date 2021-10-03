@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:say_hi/controllers/main_controller.dart';
+import 'package:say_hi/screens/main/main_daily_question_widget.dart';
+import 'package:say_hi/screens/main/main_reading_widget.dart';
 import 'package:say_hi/screens/profile/profile_screen.dart';
 
 class MainWelcomeWidget extends StatefulWidget {
@@ -75,7 +77,7 @@ class _MainWelcomeWidgetState extends State<MainWelcomeWidget> {
                     padding: const EdgeInsets.all(6),
                     child: ElevatedButton(
                       onPressed: (){
-                        mainController.changeIndex(1);
+                        mainController.selectedWidget.value = Container(child: MainDailyQuestionWidget());
                       },
                       child: Text("Günlük Alıştırmalar"),
                     ),
@@ -86,7 +88,7 @@ class _MainWelcomeWidgetState extends State<MainWelcomeWidget> {
                     padding: const EdgeInsets.all(6),
                     child: ElevatedButton(
                       onPressed: (){
-                        mainController.changeIndex(2);
+                        mainController.selectedWidget.value = Container(child: MainReadingWidget());
                       },
                       child: Text("Okuma Alıştırması"),
                     ),
@@ -97,7 +99,7 @@ class _MainWelcomeWidgetState extends State<MainWelcomeWidget> {
                     padding: const EdgeInsets.all(6),
                     child: ElevatedButton(
                       onPressed: (){
-                        mainController.changeIndex(3);
+                        mainController.selectedWidget.value = Container();
                       },
                       child: Text("???"),
                     ),
